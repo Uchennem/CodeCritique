@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results - CodeCritique</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="brand">
+          <h1>CodeCritique</h1>
+          <p class="muted">Analysis report</p>
+        </div>
+
+        <a class="btn secondary" href="/">Analyze another</a>
+      </div>
+
+      <div class="grid two">
+        <!-- LEFT: REPORT -->
+        <div class="card">
+          <div class="cardBody">
+            <div class="sectionTitle">
+              <h2>Summary</h2>
+              <%
+                const level = (report.riskLevel || '').toLowerCase();
+                const pillClass =
+                  level === 'low' ? 'low' :
+                  level === 'medium' ? 'medium' :
+                  level === 'high' ? 'high' : 'error';
+              %>
+              <span class="pill <%= pillClass %>"><%= report.riskLevel %></span>
+            </div>
+
+            <div class="row">
+              <span class="badge">
+                <strong>Risk Score:</strong>
+                <%= report.riskScore ?? "N/A" %>
+              </span>
+
+              <% if (report.mlRiskLevel) { %>
+                <span class="badge">
+                  <strong>ML:</strong>
+                  <%= report.mlRiskLevel %>
+                  <% if (report.mlConfidence !== null && report.mlConfidence !== undefined) { %>
+                    <span class="muted">(conf <%= report.mlConfidence %>)</span>
+                  <% } %>
+                </span>
+              <% } else { %>
+                <span class="badge">
+                  <strong>ML:</strong> <span class="muted">not available</span>
+                </span>
+              <% } %>
+              
+              <% if (report.notes) { %>
+                <span class="badge"><%= report.notes %></span>
+              <% } %>
+            </div>
+
+            <div style="height: 14px;"></div>
+
+            <div class="sectionTitle">
+              <h2>Metrics</h2>
+              <span class="muted">
+                <%= report.metrics ? Object.keys(report.metrics).length : 0 %> total
+              </span>
+            </div>
+
+            <% if (report.metrics && Object.keys(report.metrics).length > 0) { %>
+              <ul class="list">
+                <% Object.entries(report.metrics).forEach(([k, v]) => { %>
+                  <li><strong><%= k %>:</strong> <%= v %></li>
+                <% }); %>
+              </ul>
+            <% } else { %>
+              <p class="muted">No metrics returned.</p>
+            <% } %>
+
+            <div style="height: 14px;"></div>
+
+            <div class="sectionTitle">
+              <h2>Findings</h2>
+              <span class="muted"><%= (report.findings || []).length %></span>
+            </div>
+
+            <% if (!report.findings || report.findings.length === 0) { %>
+              <p class="muted">No findings detected.</p>
+            <% } else { %>
+              <ul class="findings">
+                <% report.findings.forEach((f) => { %>
+                  <li class="finding">
+                    <div class="sev">
+                      <span class="dot <%= f.severity %>"></span>
+                      <strong><%= (f.severity || "").toUpperCase() %></strong>
+                      <% if (f.line) { %>
+                        <span class="muted">line <%= f.line %></span>
+                      <% } %>
+                    </div>
+
+                    <div><%= f.message %></div>
+                  </li>
+                <% }); %>
+              </ul>
+            <% } %>
+
+            <div style="height: 14px;"></div>
+
+            <div class="sectionTitle">
+              <h2>ML Feature Vector</h2>
+              <span class="muted">
+                <%= report.features ? Object.keys(report.features).length : 0 %> features
+              </span>
+            </div>
+
+            <% if (report.features && Object.keys(report.features).length > 0) { %>
+              <div class="featureGrid">
+                <% Object.entries(report.features).forEach(([k, v]) => { %>
+                  <div class="featureCard">
+                    <div class="featureName"><%= k %></div>
+                    <div class="featureValue"><%= v %></div>
+                    <% if (report.featureInfo && report.featureInfo[k]) { %>
+                      <div class="featureHelp"><%= report.featureInfo[k] %></div>
+                    <% } %>
+                  </div>
+                <% }); %>
+              </div>
+            <% } else { %>
+              <p class="muted">No ML feature vector returned.</p>
+            <% } %>
+
+            <div style="height: 14px;"></div>
+
+            <div class="sectionTitle">
+              <h2>Suggested next step</h2>
+              <span class="muted">quick wins</span>
+            </div>
+
+            <ul class="list">
+              <% if ((report.riskLevel || "").toLowerCase() === "high") { %>
+                <li>Reduce nesting and break large functions into helpers.</li>
+                <li>Remove unsafe execution patterns and validate inputs.</li>
+              <% } else if ((report.riskLevel || "").toLowerCase() === "medium") { %>
+                <li>Simplify complex conditionals and add clearer naming/comments.</li>
+                <li>Consider splitting the file into smaller modules.</li>
+              <% } else { %>
+                <li>Looks stable. Add tests and keep functions small as the project grows.</li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RIGHT: CODE -->
+        <div class="card">
+          <div class="cardBody">
+            <div class="sectionTitle">
+              <h2>Submitted Code</h2>
+              <span class="muted"><%= (code || "").split("\n").length %> lines</span>
+            </div>
+
+            <pre><code><%= code %></code></pre>
+
+            <div style="height: 10px;"></div>
+            <p class="muted">
+              Note: Code is HTML-escaped for safety in the demo UI.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

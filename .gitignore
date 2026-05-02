@@ -1,0 +1,39 @@
+# ----- Node / JS -----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+python_service/.venv/
+python_service/venv/
+
+# ----- Secrets / local env -----
+.env
+.env.*
+!.env.example
+
+# ----- OS / Editor -----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ----- Temporary / generated artifacts -----
+.tmp_*
+*.tmp
+*.zip

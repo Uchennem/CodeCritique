@@ -1,0 +1,76 @@
+Test 1: Clean, Low-Risk Code (baseline)
+
+def calculate_average(numbers):
+    """Return the average of a list of numbers."""
+    if not numbers:
+        return 0
+
+    total = sum(numbers)
+    return total / len(numbers)
+
+
+def main():
+    values = [10, 20, 30, 40]
+    avg = calculate_average(values)
+    print(f"Average: {avg}")
+
+
+if __name__ == "__main__":
+    main()
+
+
+Test 2: Medium Risk
+
+def process_data(data):
+    result = []
+
+    for item in data:
+        if item > 0:
+            if item % 2 == 0:
+                if item > 50:
+                    result.append(item * 2)
+                else:
+                    result.append(item + 10)
+            else:
+                if item > 25:
+                    result.append(item - 5)
+                else:
+                    result.append(item)
+        else:
+            result.append(0)
+
+    return result
+
+
+values = [10, 23, 60, -3, 44, 101]
+output = process_data(values)
+print(output)
+
+Test 3: High Risk (security + complexity)
+
+def run_user_code(user_input):
+    # Dangerous: executes arbitrary user input
+    result = eval(user_input)
+    return result
+
+
+def handler(inputs):
+    results = []
+
+    for value in inputs:
+        if value:
+            if isinstance(value, str):
+                if len(value) > 3:
+                    results.append(run_user_code(value))
+                else:
+                    results.append(value)
+            else:
+                results.append(value)
+        else:
+            results.append(None)
+
+    return results
+
+
+data = ["2 + 2", "10 * 5", "__import__('os').system('echo hacked')"]
+print(handler(data))

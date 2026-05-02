@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeCritique</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div class="header">
+          <div class="brand">
+            <h1>CodeCritique</h1>
+            <p>Paste code, run analysis, get metrics + a risk classification.</p>
+          </div>
+
+          <span class="badge">
+            <strong>Tip:</strong> Try something with nested ifs, long functions, or <code>eval()</code>
+          </span>
+        </div>
+      </header>
+
+      <% if (typeof error !== "undefined" && error) { %>
+        <div class="alert"><%= error %></div>
+        <div style="height: 12px;"></div>
+      <% } %>
+
+      <main>
+        <div class="card">
+          <div class="cardBody">
+            <form method="POST" action="/analyze" class="grid">
+              <div>
+                <label for="code">Submitted code</label>
+                <textarea
+                  id="code"
+                  name="code"
+                  placeholder="Paste your code here..."
+                  spellcheck="false"
+                  autocomplete="off"
+                  autocapitalize="off"
+                ></textarea>
+              </div>
+
+              <div class="row">
+                <div>
+                  <label for="language">Language</label><br />
+                  <select id="language" name="language">
+                    <option value="python" selected>Python</option>
+                    <option value="javascript">JavaScript (basic scan)</option>
+                  </select>
+                </div>
+
+                <button class="btn" type="submit">Analyze</button>
+                <a class="btn secondary" href="/">Reset</a>
+
+                <span class="muted" style="margin-left:auto;">
+                  The analyzer runs on a separate Python service.
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div style="height: 14px;"></div>
+
+        <div class="card">
+          <div class="cardBody">
+            <div class="sectionTitle">
+              <h2>What you’ll get</h2>
+              <span class="muted">in one run</span>
+            </div>
+
+            <ul class="list">
+              <li><strong>Summary:</strong> risk score + risk level</li>
+              <li><strong>Metrics:</strong> LOC, nesting depth, branching points, etc.</li>
+              <li><strong>Findings:</strong> security + maintainability flags with explanations</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="height: 14px;"></div>
+
+        <div class="card">
+          <div class="cardBody">
+            <div class="sectionTitle">
+              <h2>ML Transition Foundation</h2>
+              <span class="muted">week 6 focus</span>
+            </div>
+
+            <ul class="list">
+              <li><strong>Feature extraction:</strong> the analyzer now exposes the same feature vector used for model training.</li>
+              <li><strong>Rule-first scoring:</strong> the current demo still uses rule-based scoring as the main result.</li>
+              <li><strong>Model support:</strong> ML predictions are shown for comparison while the dataset and feature set mature.</li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <footer style="margin-top: 18px;">
+        <p class="muted" style="margin: 0; text-align: center;">
+          &copy; <%= new Date().getFullYear() %> uche oranye Code Critique. All rights reserved.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
