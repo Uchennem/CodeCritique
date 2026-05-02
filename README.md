@@ -60,7 +60,7 @@ Open `http://127.0.0.1:4000` in your browser, paste code, and run analysis.
   - Python startup port
   - `PY_SERVICE_URL` in `.env`
 
-## Retrain the Model
+<!-- ## Retrain the Model
 
 From `python_service`:
 
@@ -68,4 +68,4 @@ From `python_service`:
 ..\.venv\Scripts\python.exe train_model.py
 ```
 
-The training script reads `training_data.csv`, retrains the classifier, and writes `risk_model.joblib`.
+The training script reads `training_data.csv`, retrains the classifier, and writes `risk_model.joblib`. -->
