@@ -9,15 +9,6 @@ CodeCritique is an AI-assisted code review prototype built for the CSE 499 senio
 - `python_service/main.py` extracts metrics, generates findings, computes a rule-based risk score, and optionally compares that result with an ML model.
 - `python_service/train_model.py` retrains the saved model from the project dataset.
 
-## Week 6 Focus
-
-This week is about building the foundation for a gradual move from rule-based analysis to machine learning, not replacing the current scoring yet.
-
-- Formalize the feature vector used for model training.
-- Strengthen and document the training dataset.
-- Keep rule-based scoring as the primary output.
-- Expose ML-oriented features in the UI so feature engineering is visible during demos.
-
 ## Extracted ML Features
 
 - `loc`: total lines of code
